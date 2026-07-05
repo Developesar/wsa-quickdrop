@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Test
+        run: python -m pytest src/WSAQuickDrop.Tests
+
+      - name: Build executable
+        run: |
+          python -m PyInstaller --clean --onefile --name WSAQuickDrop --paths src quickdrop_entry.py
+
+      - name: Package artifact
+        shell: pwsh
+        run: .\scripts\package_release.ps1
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WSAQuickDrop-v0.1.0-win-x64
+          path: release/WSAQuickDrop-v0.1.0-win-x64.zip

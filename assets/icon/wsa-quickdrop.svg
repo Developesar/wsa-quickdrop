@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="WSA QuickDrop icon">
+  <rect width="256" height="256" rx="44" fill="#122033"/>
+  <path d="M64 72h128a16 16 0 0 1 16 16v80a16 16 0 0 1-16 16H64a16 16 0 0 1-16-16V88a16 16 0 0 1 16-16z" fill="#1f9d8a"/>
+  <path d="M78 98h100v16H78zM78 132h64v16H78z" fill="#e8fff9"/>
+  <path d="M157 130h22v-28h18v28h22l-31 34z" fill="#ffcc66"/>
+  <path d="M56 190h144" stroke="#e8fff9" stroke-width="10" stroke-linecap="round"/>
+</svg>

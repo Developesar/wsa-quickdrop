@@ -1,0 +1,8 @@
+"""WSA QuickDrop package."""
+
+APP_NAME = "WSA QuickDrop"
+APP_VERSION = "0.1.0"
+CLI_NAME = "wsa-quickdrop"
+DEFAULT_WSA_HOST = "127.0.0.1"
+DEFAULT_WSA_PORT = 58526
+DEFAULT_DESTINATION_ROOT = "WSAQuickDrop"

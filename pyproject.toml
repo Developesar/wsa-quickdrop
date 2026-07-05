@@ -1,0 +1,11 @@
+[project]
+name = "wsa-quickdrop"
+version = "0.1.0"
+description = "Send files from Windows to Windows Subsystem for Android storage using ADB."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "WSA QuickDrop contributors" }]
+
+[tool.pytest.ini_options]
+testpaths = ["src/WSAQuickDrop.Tests"]
+pythonpath = ["src"]

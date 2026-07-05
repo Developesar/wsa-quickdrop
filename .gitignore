@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local virtual environments and dependency cache
+.venv/
+.pip-cache/
+.pyinstaller-cache/
+
+# Build output
+build/
+dist/
+release/
+*.spec
+
+# Local logs and config
+logs/
+*.log
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
