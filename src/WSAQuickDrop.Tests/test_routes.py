@@ -15,11 +15,11 @@ from WSAQuickDrop.routes import (
 
 
 def test_file_type_routing_defaults() -> None:
-    assert route_for_file(r"C:\Users\User\Desktop\image.JPG").remote_path == "/sdcard/Pictures/WSAQuickDrop/image.JPG"
-    assert route_for_file(r"C:\Users\User\Desktop\scan.pdf").remote_path == "/sdcard/Download/WSAQuickDrop/scan.pdf"
-    assert route_for_file(r"C:\Users\User\Desktop\movie.mp4").remote_path == "/sdcard/Movies/WSAQuickDrop/movie.mp4"
-    assert route_for_file(r"C:\Users\User\Desktop\song.flac").remote_path == "/sdcard/Music/WSAQuickDrop/song.flac"
-    assert route_for_file(r"C:\Users\User\Desktop\data.bin").remote_path == "/sdcard/Download/WSAQuickDrop/data.bin"
+    assert route_for_file(r"D:\Samples\image.JPG").remote_path == "/sdcard/Pictures/WSAQuickDrop/image.JPG"
+    assert route_for_file(r"D:\Samples\scan.pdf").remote_path == "/sdcard/Download/WSAQuickDrop/scan.pdf"
+    assert route_for_file(r"D:\Samples\movie.mp4").remote_path == "/sdcard/Movies/WSAQuickDrop/movie.mp4"
+    assert route_for_file(r"D:\Samples\song.flac").remote_path == "/sdcard/Music/WSAQuickDrop/song.flac"
+    assert route_for_file(r"D:\Samples\data.bin").remote_path == "/sdcard/Download/WSAQuickDrop/data.bin"
 
 
 def test_document_extensions_route_to_download_in_auto_mode() -> None:
@@ -45,7 +45,7 @@ def test_custom_android_path_validation_rejects_unsafe_paths(path: str) -> None:
 
 
 def test_windows_path_filename_is_preserved() -> None:
-    route = route_for_file(r"C:\Users\User\Desktop\my file.pdf")
+    route = route_for_file(r"D:\Samples\my file.pdf")
     assert route.remote_path.endswith("/my file.pdf")
 
 

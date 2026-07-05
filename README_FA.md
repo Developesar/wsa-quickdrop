@@ -54,12 +54,12 @@ WSAQuickDrop.exe --create-folder Pictures "My OCR Tests"
 WSAQuickDrop.exe --diagnose
 ```
 
-## مثال Persian OCR Offline
+## مثال برنامه OCR اندرویدی
 
 1. در WSA QuickDrop پوشه Pictures را انتخاب کنید.
 2. عکس را داخل برنامه رها کنید.
 3. Send را بزنید.
-4. Persian OCR Offline را باز کنید.
+4. برنامه OCR اندرویدی خود را داخل WSA باز کنید.
 5. Select Image را بزنید.
 6. مسیر Pixel 5 > Pictures را باز کنید و عکس را انتخاب کنید.
 

@@ -40,7 +40,6 @@ class AdbDiscovery:
         if user_profile:
             candidates.extend(
                 [
-                    Path(user_profile) / "AppData" / "Local" / "Android" / "Sdk" / "platform-tools" / "adb.exe",
                     Path(user_profile) / "Android" / "Sdk" / "platform-tools" / "adb.exe",
                 ]
             )

@@ -24,9 +24,6 @@ from .transfer import TransferOptions, TransferService
 from .windows_drop import enable_file_drop
 
 
-PERSIAN_OCR_PACKAGES = ["ir.persiandots.ocr.dev", "ir.persiandots.ocr"]
-
-
 TEXT = {
     "en": {
         "tagline": "Send files to Windows Subsystem for Android",
@@ -588,12 +585,6 @@ class QuickDropApp:
         self.root.clipboard_clear()
         self.root.clipboard_append(text)
         self.log("Copied log text.")
-
-    def copy_persian_ocr_instructions(self) -> None:
-        text = f"Open Persian OCR Offline > Select Image > {ROOT_LABEL} > {self.selected_folder.friendly_path}"
-        self.root.clipboard_clear()
-        self.root.clipboard_append(text)
-        self.log("Copied Persian OCR Offline test instructions.")
 
     def log(self, message: str) -> None:
         self.log_text.insert("end", message + "\n")

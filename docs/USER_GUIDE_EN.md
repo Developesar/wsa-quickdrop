@@ -50,12 +50,12 @@ Smart extension routing is still available:
 WSAQuickDrop.exe --send "sample.jpg" --target auto
 ```
 
-## Persian OCR Offline Example
+## Android OCR App Example
 
 1. Choose Pictures.
 2. Drop an image.
 3. Click Send.
-4. Open Persian OCR Offline.
+4. Open your Android OCR app inside WSA.
 5. Choose Select Image.
 6. Browse to Pixel 5 > Pictures.
 7. Select the image.

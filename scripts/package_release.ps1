@@ -19,6 +19,19 @@ Copy-Item -LiteralPath (Join-Path $root "README_FA.md") -Destination $packageDir
 Copy-Item -LiteralPath (Join-Path $root "LICENSE") -Destination $packageDir -Force
 Copy-Item -LiteralPath (Join-Path $root "CHANGELOG.md") -Destination $packageDir -Force
 Copy-Item -LiteralPath (Join-Path $root "docs") -Destination $packageDir -Recurse -Force
+$sourceOnlyDocs = @(
+    "RELEASE_NOTES_v0.2.0.md",
+    "RELEASE_ZIP_AUDIT.md",
+    "PUBLIC_RELEASE_CLEANUP_REPORT.md",
+    "PERSONAL_DATA_SCAN.md",
+    "PUBLISH_COMMANDS.md"
+)
+foreach ($docName in $sourceOnlyDocs) {
+    $docPath = Join-Path $packageDir "docs\$docName"
+    if (Test-Path -LiteralPath $docPath) {
+        Remove-Item -LiteralPath $docPath -Force
+    }
+}
 Copy-Item -LiteralPath (Join-Path $root "assets") -Destination $packageDir -Recurse -Force
 $releaseScripts = Join-Path $packageDir "scripts"
 New-Item -ItemType Directory -Force -Path $releaseScripts | Out-Null
