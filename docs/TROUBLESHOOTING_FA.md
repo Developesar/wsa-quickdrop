@@ -1,46 +1,43 @@
 # رفع خطاهای رایج
 
-## 1. adb.exe not found
+## اجرای diagnose
 
-Android SDK Platform-Tools را نصب کنید، مسیر آن را به PATH اضافه کنید، یا `adb.exe` را از داخل برنامه انتخاب کنید.
+```powershell
+WSAQuickDrop.exe --diagnose
+```
 
-## 2. WSA connection refused
+## adb.exe پیدا نشد
 
-WSA را اجرا کنید، Developer Mode را فعال کنید، یک برنامه اندرویدی را باز کنید و دوباره `adb connect 127.0.0.1:58526` را امتحان کنید.
+Android SDK Platform-Tools را نصب کنید، مسیر آن را به PATH اضافه کنید، یا در Settings مسیر `adb.exe` را انتخاب کنید.
 
-## 3. device offline
+## WSA وصل نیست
 
-WSA را restart کنید، اتصال ADB را دوباره برقرار کنید و diagnostics را اجرا کنید.
+تنظیمات Windows Subsystem for Android را باز کنید، Developer Mode را فعال کنید، یک برنامه اندرویدی را اجرا کنید و Connect را بزنید.
 
-## 4. unauthorized
-
-ممکن است WSA منتظر تایید ADB باشد. WSA را restart کنید و دوباره وصل شوید.
-
-## 5. فایل‌ها ارسال شده‌اند ولی در Images دیده نمی‌شوند
-
-در File Picker اندروید این مسیرها را بررسی کنید:
-
-- Pixel 5 > Pictures > WSAQuickDrop
-- Pixel 5 > Download > WSAQuickDrop
-
-تب Images ممکن است به refresh یا کمی زمان برای Media Scanner نیاز داشته باشد.
-
-## 6. Media Scanner به‌روزرسانی نکرد
-
-اگر verification موفق بوده، فایل ارسال شده است. به جای تب Recent یا Images، مسیر پوشه را دستی باز کنید.
-
-## 7. File Picker فایلی نشان نمی‌دهد
-
-فیلتر File Picker را از images-only به all files تغییر دهید یا مسیر پوشه را دستی باز کنید.
-
-## 8. چند دستگاه ADB وصل است
+## چند دستگاه ADB وصل است
 
 برنامه وقتی `127.0.0.1:58526` موجود باشد آن را ترجیح می‌دهد. دستگاه‌های دیگر را قطع کنید یا از `--connect` استفاده کنید.
 
-## 9. WSA اجرا نیست
+## مرورگر پوشه خالی است
 
-یک برنامه اندرویدی داخل WSA را باز کنید و دوباره تلاش کنید.
+ممکن است WSA اجرا نباشد، Developer Mode خاموش باشد یا ADB وصل نشده باشد. Connect و سپس Refresh folders را بزنید.
 
-## 10. دستور ADB شناخته نمی‌شود
+## mkdir: Needs 1 argument
 
-بعد از تغییر PATH یک PowerShell جدید باز کنید، یا مسیر `adb.exe` را دستی در برنامه انتخاب کنید.
+این خطا مربوط به باگ مقصد خالی در نسخه قدیمی بود. نسخه 0.2.0 قبل از ساخت دستور `mkdir` مقصد را اعتبارسنجی می‌کند. اگر هنوز آن را دیدید، مطمئن شوید یک پوشه زیر Pixel 5 انتخاب شده است.
+
+## Permission denied
+
+یک پوشه معمولی مثل Pictures یا Download انتخاب کنید. مسیرهای خارج از `/sdcard/` مسدود می‌شوند.
+
+## فایل در Images دیده نمی‌شود
+
+مستقیم به Pixel 5 > پوشه انتخاب‌شده بروید. تب‌های رسانه‌ای ممکن است کمی دیرتر refresh شوند.
+
+## File Picker فایلی نشان نمی‌دهد
+
+فیلتر File Picker را روی all files بگذارید یا پوشه را دستی باز کنید.
+
+## نام فایل فارسی
+
+نام فایل و پوشه فارسی تا جایی که ADB و File Picker پشتیبانی کنند حفظ می‌شود. اگر برنامه مقصد آن را نشان نداد، از مسیر پوشه وارد شوید.

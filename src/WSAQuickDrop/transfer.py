@@ -6,9 +6,18 @@ from typing import Callable, Iterable
 
 from . import DEFAULT_WSA_HOST, DEFAULT_WSA_PORT
 from .adb import AdbClient, AdbDevice, AdbDiscovery
+from .android_folders import (
+    AndroidFolder,
+    FolderNameError,
+    build_child_folder_path,
+    friendly_from_android_path,
+    friendly_to_android_path,
+    merge_builtin_and_discovered,
+    parse_ls_directories,
+)
 from .config import AppConfig
 from .logger import LocalLogger
-from .routes import AndroidPathError, Route, route_for_file
+from .routes import AndroidPathError, Route, join_android_path, route_for_file
 
 StatusCallback = Callable[["TransferItem"], None]
 
@@ -17,6 +26,7 @@ StatusCallback = Callable[["TransferItem"], None]
 class TransferOptions:
     target: str = "auto"
     custom_path: str = ""
+    android_folder: str = ""
     adb_path: str = ""
     host: str = DEFAULT_WSA_HOST
     port: int = DEFAULT_WSA_PORT
@@ -140,16 +150,13 @@ class TransferService:
             try:
                 if not file.is_file():
                     raise FileNotFoundError(f"Local file does not exist: {file}")
-                route = route_for_file(
-                    file,
-                    mode=options.target,
-                    custom_path=options.custom_path,
-                    append_timestamp=options.append_timestamp,
-                )
+                route = self._route_for_transfer(file, options)
                 self._fill_route(item, route)
                 item.status = "sending"
                 item.message = "Creating Android destination."
                 self._notify(callback, item)
+                if not route.directory:
+                    raise AndroidPathError("Choose an Android folder before sending.")
                 mkdir_result = client.ensure_directory(route.directory, device=device.serial)
                 self._log_result(f"mkdir {route.directory}", mkdir_result)
                 if not mkdir_result.ok:
@@ -191,6 +198,38 @@ class TransferService:
                 self._notify(callback, item)
         return summary
 
+    def list_folders(self, options: TransferOptions) -> tuple[list[AndroidFolder], list[str]]:
+        client, device, messages = self.ensure_connection(options)
+        if client is None or device is None or device.state != "device":
+            return merge_builtin_and_discovered([]), messages
+        result = client.list_sdcard_dirs(device=device.serial)
+        self._log_result("ls /sdcard", result)
+        if not result.ok:
+            messages.append(result.stderr or result.stdout or "Could not list Android folders.")
+            return merge_builtin_and_discovered([]), messages
+        folders = merge_builtin_and_discovered(parse_ls_directories(result.stdout))
+        messages.append(f"Loaded {len(folders)} Android folders.")
+        return folders, messages
+
+    def create_folder(self, parent_android_path: str, folder_name: str, options: TransferOptions) -> tuple[AndroidFolder | None, list[str]]:
+        messages: list[str] = []
+        try:
+            friendly_path, android_path = build_child_folder_path(parent_android_path, folder_name)
+        except (AndroidPathError, FolderNameError) as exc:
+            return None, [str(exc)]
+        client, device, connection_messages = self.ensure_connection(options)
+        messages.extend(connection_messages)
+        if client is None or device is None or device.state != "device":
+            messages.append("ADB/WSA connection is not ready.")
+            return None, messages
+        result = client.ensure_directory(android_path, device=device.serial)
+        self._log_result(f"mkdir {android_path}", result)
+        if not result.ok:
+            messages.append(result.stderr or result.stdout or "Could not create folder.")
+            return None, messages
+        messages.append(f"Created {friendly_path}.")
+        return AndroidFolder(friendly_path=friendly_path, android_path=android_path), messages
+
     def check_package_installed(self, package_ids: Iterable[str], options: TransferOptions) -> tuple[bool, str]:
         client, device, messages = self.ensure_connection(options)
         if client is None or device is None:
@@ -209,6 +248,21 @@ class TransferService:
         item.category = route.category
         item.remote_dir = route.directory
         item.remote_path = route.remote_path
+
+    def _route_for_transfer(self, file: Path, options: TransferOptions) -> Route:
+        if options.android_folder:
+            directory = friendly_to_android_path(options.android_folder)
+            return Route(
+                category="selected folder",
+                directory=directory,
+                remote_path=join_android_path(directory, file.name),
+            )
+        return route_for_file(
+            file,
+            mode=options.target,
+            custom_path=options.custom_path,
+            append_timestamp=options.append_timestamp,
+        )
 
     def _notify(self, callback: StatusCallback | None, item: TransferItem) -> None:
         if callback:

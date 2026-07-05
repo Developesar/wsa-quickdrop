@@ -1,6 +1,12 @@
 # Screenshots Plan
 
-Before publishing the GitHub release, capture these screenshots:
+Generated mockups are available:
+
+- `assets/screenshots/main-window.png`
+- `assets/screenshots/folder-browser.png`
+- `assets/screenshots/sendto-flow.png`
+
+Before publishing the GitHub release, replace them with real screenshots if possible:
 
 1. Main window with ADB detected and empty queue.
 2. Main window with mixed files queued.

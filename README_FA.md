@@ -1,80 +1,78 @@
 # WSA QuickDrop
 
-ارسال فایل از ویندوز به WSA با یک کلیک.
+![نماد WSA QuickDrop](assets/icon/wsa-quickdrop.png)
 
-WSA QuickDrop یک ابزار کوچک ویندوزی است که عکس، PDF، ویدئو، صدا و سندها را با ADB به حافظه Windows Subsystem for Android می‌فرستد. هدف اصلی این است که فایل‌های ویندوز در File Picker برنامه‌های اندرویدی داخل WSA دیده شوند.
+**ارسال فایل از ویندوز به WSA با انتخاب تصویری پوشه اندروید.**
 
-## این ابزار چیست
+WSA QuickDrop یک ابزار کوچک ویندوزی است که به شما اجازه می‌دهد فایل‌ها را از ویندوز به Windows Subsystem for Android بفرستید؛ کافی است یک پوشه اندروید را به شکل تصویری انتخاب کنید و فایل‌ها را داخل برنامه رها کنید.
 
-- فایل‌ها را از ویندوز به پوشه‌های مناسب اندروید می‌فرستد.
-- برای عکس‌ها از `Pictures/WSAQuickDrop` استفاده می‌کند.
-- برای PDF و سندها از `Download/WSAQuickDrop` استفاده می‌کند.
-- هیچ فایلی را آپلود نمی‌کند.
-- تله‌متری و آنالیتیکس ندارد.
+![پنجره اصلی](assets/screenshots/main-window.png)
 
-## نصب
+## این ابزار چه کاری انجام می‌دهد
 
-فایل release را دانلود و extract کنید، سپس `WSAQuickDrop.exe` را اجرا کنید.
+- پوشه‌های Android را با نام ساده زیر Pixel 5 نشان می‌دهد.
+- پوشه‌هایی مثل Pictures، Download، Documents، DCIM، Movies و Music را نمایش می‌دهد.
+- با Drag & Drop یا Browse files فایل‌ها را صف می‌کند.
+- گزینه `Send to > WSA QuickDrop` را بدون دسترسی Admin نصب می‌کند.
+- مسیرهای فنی مثل `/sdcard` را در حالت عادی نشان نمی‌دهد.
+- برای کاربران حرفه‌ای، نمایش مسیر Android در Settings قابل فعال‌سازی است.
+- تله‌متری، آپلود، آنالیتیکس یا سرویس ابری ندارد.
 
-برای نصب گزینه SendTo:
+## شروع سریع
+
+1. Android SDK Platform-Tools را نصب کنید تا `adb.exe` در دسترس باشد.
+2. Developer Mode را در Windows Subsystem for Android فعال کنید.
+3. `WSAQuickDrop.exe` را باز کنید.
+4. Connect را بزنید.
+5. از Pixel 5 یک پوشه مثل Pictures یا Download را انتخاب کنید.
+6. فایل‌ها را داخل برنامه رها کنید.
+7. Send را بزنید.
+8. داخل برنامه اندرویدی، از File Picker مسیر Pixel 5 > پوشه انتخاب‌شده را باز کنید.
+
+## نصب SendTo
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install_sendto.ps1
 ```
 
-## فعال کردن Developer Mode در WSA
-
-1. تنظیمات Windows Subsystem for Android را باز کنید.
-2. Developer Mode را فعال کنید.
-3. یک برنامه اندرویدی را باز کنید تا WSA اجرا شود.
-4. پورت پیش‌فرض معمولا `127.0.0.1:58526` است.
-
-راهنمای کامل‌تر در [WSA_SETUP_FA.md](docs/WSA_SETUP_FA.md) آمده است.
-
-## تنظیم ADB
-
-این پروژه ADB را همراه خودش نصب نمی‌کند. Android SDK Platform-Tools را از سایت رسمی Android نصب کنید، سپس مسیر `adb.exe` را به PATH اضافه کنید یا از داخل برنامه فایل `adb.exe` را انتخاب کنید.
-
-راهنمای کامل‌تر در [ADB_SETUP_FA.md](docs/ADB_SETUP_FA.md) آمده است.
-
-## نصب SendTo
-
-بعد از اجرای اسکریپت نصب، در Explorer:
-
-1. یک یا چند فایل را انتخاب کنید.
-2. راست‌کلیک کنید.
-3. مسیر `Send to > WSA QuickDrop` را بزنید.
-
-این روش نیاز به دسترسی Admin ندارد.
-
-## ارسال فایل با راست‌کلیک
-
-فایل‌ها به شکل خودکار بر اساس نوعشان مسیر‌دهی می‌شوند:
-
-- عکس: `/sdcard/Pictures/WSAQuickDrop`
-- PDF و سند: `/sdcard/Download/WSAQuickDrop`
-- ویدئو: `/sdcard/Movies/WSAQuickDrop`
-- صدا: `/sdcard/Music/WSAQuickDrop`
-
-## ارسال فایل با Drag & Drop
-
-برنامه را باز کنید و فایل‌ها را داخل پنجره رها کنید. اگر Drag & Drop در محیط شما فعال نبود، از دکمه Browse Files استفاده کنید.
-
-## مثال برای Persian OCR Offline
-
-برای تست:
+بعد از نصب:
 
 ```text
-Open Persian OCR Offline > Select Image/PDF > Pixel 5 > Pictures or Download > WSAQuickDrop
+Right click > Send to > WSA QuickDrop
 ```
 
-شناسه‌های شناخته‌شده:
+فایل‌ها داخل برنامه صف می‌شوند و به صورت پیش‌فرض بلافاصله ارسال نمی‌شوند، تا بتوانید پوشه مقصد را بررسی کنید.
 
-- `ir.persiandots.ocr.dev`
-- `ir.persiandots.ocr`
+## مثال CLI
 
-## رفع خطاهای رایج
+```powershell
+WSAQuickDrop.exe --send "sample.jpg" --folder Pictures
+WSAQuickDrop.exe --send "sample.pdf" --folder Download
+WSAQuickDrop.exe --send "sample.jpg" --folder "Pictures/My OCR Tests"
+WSAQuickDrop.exe --list-folders
+WSAQuickDrop.exe --create-folder Pictures "My OCR Tests"
+WSAQuickDrop.exe --diagnose
+```
 
-اگر فایل‌ها در تب Images دیده نمی‌شوند، داخل Android File Picker مسیر `Pixel 5 > Pictures > WSAQuickDrop` یا `Pixel 5 > Download > WSAQuickDrop` را بررسی کنید. گاهی Media Scanner کمی دیر به‌روزرسانی می‌شود.
+## مثال Persian OCR Offline
 
-جزئیات بیشتر در [TROUBLESHOOTING_FA.md](docs/TROUBLESHOOTING_FA.md) است.
+1. در WSA QuickDrop پوشه Pictures را انتخاب کنید.
+2. عکس را داخل برنامه رها کنید.
+3. Send را بزنید.
+4. Persian OCR Offline را باز کنید.
+5. Select Image را بزنید.
+6. مسیر Pixel 5 > Pictures را باز کنید و عکس را انتخاب کنید.
+
+## رفع مشکل
+
+راهنمای کامل در [TROUBLESHOOTING_FA.md](docs/TROUBLESHOOTING_FA.md) است.
+
+اگر فایل سریع دیده نشد، داخل File Picker اندروید مستقیم به Pixel 5 > پوشه انتخاب‌شده بروید.
+
+## حریم خصوصی
+
+فایل‌ها فقط به صورت محلی از طریق ADB ارسال می‌شوند. برنامه فایل‌ها را آپلود نمی‌کند و تله‌متری ندارد. گزارش‌ها در `%APPDATA%\WSAQuickDrop\logs` ذخیره می‌شوند.
+
+## مجوز
+
+MIT

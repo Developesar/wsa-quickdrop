@@ -40,7 +40,7 @@ def build_sendto_batch(executable: str, prefix_args: list[str] | None = None) ->
         [
             "@echo off",
             "setlocal",
-            f'"{executable}" {args}{spacer}--send %*',
+            f'"{executable}" {args}{spacer}%*',
             "exit /b %ERRORLEVEL%",
             "",
         ]
@@ -67,7 +67,7 @@ def uninstall_sendto() -> bool:
 
 def build_context_menu_command(exe_path: str | None = None) -> str:
     executable, prefix_args = resolve_executable_for_launcher(exe_path)
-    quoted = [f'"{executable}"', *[f'"{arg}"' for arg in prefix_args], "--send", '"%1"']
+    quoted = [f'"{executable}"', *[f'"{arg}"' for arg in prefix_args], '"%1"']
     return " ".join(quoted)
 
 

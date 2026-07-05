@@ -20,6 +20,8 @@ adb devices
 127.0.0.1:58526    device
 ```
 
+بعد از آماده شدن اتصال، WSA QuickDrop می‌تواند پوشه‌های Pixel 5 را نمایش دهد و فایل‌ها را به پوشه انتخاب‌شده بفرستد.
+
 ## اگر connection refused دیدید
 
 - مطمئن شوید WSA اجرا شده است.
@@ -27,3 +29,4 @@ adb devices
 - Developer Mode را دوباره بررسی کنید.
 - پورت نمایش‌داده‌شده در تنظیمات WSA را چک کنید.
 - WSA را restart کنید و دوباره تلاش کنید.
+- در WSA QuickDrop دکمه Connect و سپس Refresh folders را بزنید.

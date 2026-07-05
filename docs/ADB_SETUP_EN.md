@@ -25,9 +25,12 @@ adb version
 ## Select ADB manually
 
 If you do not want to change PATH, open WSA QuickDrop and use Browse adb.exe.
+In v0.2.0 this is available in Settings.
 
 The selected path is stored locally in:
 
 ```text
 %APPDATA%\WSAQuickDrop\config.json
 ```
+
+After ADB is configured, click Connect in WSA QuickDrop. The folder browser should show Pixel 5 folders.

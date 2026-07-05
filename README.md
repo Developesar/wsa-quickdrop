@@ -1,120 +1,104 @@
 # WSA QuickDrop
 
-Send files from Windows to WSA in one click.
+![WSA QuickDrop icon](assets/icon/wsa-quickdrop.png)
 
-WSA QuickDrop is a small Windows utility for sending images, PDFs, videos, audio, and documents into Windows Subsystem for Android storage using ADB. It is designed for the common case where an Android app inside WSA cannot easily see files from your Windows desktop.
+**Send files from Windows to WSA in one click.**
 
-![Screenshot placeholder](assets/screenshots/main-window-placeholder.svg)
+WSA QuickDrop is a small Windows utility that lets you send files from Windows into Windows Subsystem for Android by choosing an Android folder visually and dropping files.
+
+![WSA QuickDrop main window](assets/screenshots/main-window.png)
 
 ## Features
 
-- Right click one or more files in Explorer, then use `Send to > WSA QuickDrop`.
-- Drag files into the app window or choose them with Browse Files.
-- Routes files to Android-friendly folders:
-  - Images: `/sdcard/Pictures/WSAQuickDrop`
-  - PDFs and documents: `/sdcard/Download/WSAQuickDrop`
-  - Videos: `/sdcard/Movies/WSAQuickDrop`
-  - Audio: `/sdcard/Music/WSAQuickDrop`
-- Supports custom Android paths below `/sdcard/`.
-- Detects `adb.exe` from PATH, Android SDK locations, environment variables, or a saved custom path.
-- Attempts to connect to WSA at `127.0.0.1:58526`.
-- Attempts Android media scan after pushing files.
-- Includes CLI, diagnostics, local logs, and optional HKCU context-menu scripts.
-- No telemetry, no uploads, no cloud services.
+- Visual `Pixel 5` folder browser for WSA storage.
+- Friendly folders such as Pictures, Download, Documents, DCIM, Movies, Music, and Ringtones.
+- Drag and drop files or use Browse files.
+- Explorer `Send to > WSA QuickDrop` integration without admin rights.
+- Safe folder creation under the selected Android folder.
+- Optional advanced mode for showing internal Android paths.
+- ADB discovery, WSA connection diagnostics, media scan request, and local logs.
+- CLI still supports smart extension routing with `--target auto`.
+- No telemetry, uploads, analytics, or cloud services.
 
-## Install
+## Quick Start
 
-Download the release zip, extract it, and run `WSAQuickDrop.exe`.
+1. Install Android SDK Platform-Tools so `adb.exe` is available.
+2. Enable Developer Mode in Windows Subsystem for Android.
+3. Open `WSAQuickDrop.exe`.
+4. Click Connect.
+5. Choose a folder under Pixel 5, such as Pictures or Download.
+6. Drop files into the app.
+7. Click Send.
+8. In your Android app, open the file picker and browse to Pixel 5 > the selected folder.
 
-To install the recommended Explorer integration:
+## SendTo Setup
+
+Run:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install_sendto.ps1
 ```
 
-After that:
-
-1. Select one or more files in Explorer.
-2. Right click.
-3. Choose `Send to > WSA QuickDrop`.
-
-No admin rights are required.
-
-## ADB Setup
-
-WSA QuickDrop does not bundle ADB. Install Android SDK Platform-Tools, then either add `adb.exe` to PATH or select it in the app.
-
-See [ADB setup](docs/ADB_SETUP_EN.md).
-
-## WSA Setup
-
-Open Windows Subsystem for Android settings, enable Developer Mode, and make sure WSA is running. The default ADB endpoint is:
+Then select files in Explorer and choose:
 
 ```text
-127.0.0.1:58526
+Right click > Send to > WSA QuickDrop
 ```
 
-See [WSA setup](docs/WSA_SETUP_EN.md).
+SendTo opens WSA QuickDrop with files queued. It does not send immediately by default, so you can confirm or change the folder first.
 
-## CLI
+## CLI Examples
 
 ```powershell
-WSAQuickDrop.exe --help
-WSAQuickDrop.exe --send "C:\Users\User\Desktop\sample.jpg"
-WSAQuickDrop.exe --send "file1.jpg" "file2.pdf" --target auto
-WSAQuickDrop.exe --send "sample.pdf" --target downloads
-WSAQuickDrop.exe --send "sample.jpg" --target pictures --connect 127.0.0.1:58526
-WSAQuickDrop.exe --install-sendto
-WSAQuickDrop.exe --uninstall-sendto
-WSAQuickDrop.exe --list-devices
+WSAQuickDrop.exe --send "sample.jpg" --folder Pictures
+WSAQuickDrop.exe --send "sample.pdf" --folder Download
+WSAQuickDrop.exe --send "sample.jpg" --folder "Pictures/My OCR Tests"
+WSAQuickDrop.exe --list-folders
+WSAQuickDrop.exe --create-folder Pictures "My OCR Tests"
+WSAQuickDrop.exe --send "sample.jpg" --target auto
 WSAQuickDrop.exe --diagnose
 ```
 
-## Persian OCR Offline Preset
+## Persian OCR Offline Example
 
-The app includes helper text for Persian OCR Offline testing. It does not require the app and does not depend on it.
-
-Typical flow:
-
-```text
-Open Persian OCR Offline > Select Image/PDF > Pixel 5 > Pictures or Download > WSAQuickDrop
-```
-
-Known package IDs checked by the helper:
-
-- `ir.persiandots.ocr.dev`
-- `ir.persiandots.ocr`
+1. Choose Pictures in WSA QuickDrop.
+2. Drop an image.
+3. Click Send.
+4. Open Persian OCR Offline.
+5. Choose Select Image.
+6. Browse to Pixel 5 > Pictures and select the image.
 
 ## Troubleshooting
 
-Run:
+See [Troubleshooting](docs/TROUBLESHOOTING_EN.md).
 
-```powershell
-WSAQuickDrop.exe --diagnose
-```
+Common first checks:
 
-For common fixes, see [troubleshooting](docs/TROUBLESHOOTING_EN.md).
-
-## Build From Source
-
-This repository uses Python 3.11+ with Tkinter because the local machine used to create the project had the .NET runtime but no .NET SDK.
-
-```powershell
-.\scripts\build_release.ps1
-.\scripts\package_release.ps1
-```
-
-Tests run with:
-
-```powershell
-.\.venv\Scripts\python.exe -m pytest .\src\WSAQuickDrop.Tests
-```
+- Run `WSAQuickDrop.exe --diagnose`.
+- Confirm WSA Developer Mode is enabled.
+- Confirm ADB is installed.
+- If a file is not visible immediately, browse directly to Pixel 5 > selected folder.
 
 ## Privacy
 
-Files are sent locally through ADB. WSA QuickDrop does not upload files, collect analytics, or use telemetry. Logs stay under `%APPDATA%\WSAQuickDrop\logs`.
+WSA QuickDrop sends files locally through ADB. It does not upload files, collect analytics, use telemetry, or contact cloud services. Logs stay under `%APPDATA%\WSAQuickDrop\logs`.
 
-See [security and privacy](docs/SECURITY_PRIVACY.md).
+See [Security and Privacy](docs/SECURITY_PRIVACY.md).
+
+## Build From Source
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest .\src\WSAQuickDrop.Tests
+.\scripts\package_release.ps1
+```
+
+The release zip is created at:
+
+```text
+release/WSAQuickDrop-v0.2.0-win-x64.zip
+```
 
 ## License
 

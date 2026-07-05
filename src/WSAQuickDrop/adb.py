@@ -76,7 +76,11 @@ class AdbCommandFactory:
     @staticmethod
     def mkdir_args(remote_dir: str) -> list[str]:
         directory = validate_android_directory(remote_dir)
-        return ["shell", "sh", "-c", f"mkdir -p {shell_quote(directory)}"]
+        return ["shell", f"mkdir -p {shell_quote(directory)}"]
+
+    @staticmethod
+    def list_sdcard_dirs_args() -> list[str]:
+        return ["shell", "find /sdcard -mindepth 1 -maxdepth 2 -type d 2>/dev/null || ls -1 -p /sdcard"]
 
     @staticmethod
     def push_args(local_path: str | Path, remote_path: str) -> list[str]:
@@ -84,15 +88,13 @@ class AdbCommandFactory:
 
     @staticmethod
     def ls_args(remote_path: str) -> list[str]:
-        return ["shell", "sh", "-c", f"ls -l {shell_quote(remote_path)}"]
+        return ["shell", f"ls -l {shell_quote(remote_path)}"]
 
     @staticmethod
     def media_scan_args(remote_path: str) -> list[str]:
         uri = f"file://{remote_path}"
         return [
             "shell",
-            "sh",
-            "-c",
             "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d "
             + shell_quote(uri),
         ]
@@ -137,6 +139,9 @@ class AdbClient:
 
     def ensure_directory(self, remote_dir: str, device: str | None = None) -> CommandResult:
         return self.run(AdbCommandFactory.mkdir_args(remote_dir), timeout=20, device=device)
+
+    def list_sdcard_dirs(self, device: str | None = None) -> CommandResult:
+        return self.run(AdbCommandFactory.list_sdcard_dirs_args(), timeout=20, device=device)
 
     def push(self, local_path: str | Path, remote_path: str, device: str | None = None) -> CommandResult:
         return self.run(AdbCommandFactory.push_args(local_path, remote_path), timeout=180, device=device)

@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import argparse
-import os
 import platform
 import sys
-from pathlib import Path
 
 from . import APP_NAME, APP_VERSION, DEFAULT_WSA_HOST, DEFAULT_WSA_PORT
 from .adb import AdbClient, AdbDiscovery
+from .android_folders import friendly_to_android_path
 from .config import AppConfig, parse_endpoint
+from .routes import AndroidPathError
 from .sendto import (
     install_context_menu,
     install_sendto,
@@ -30,6 +30,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("files", nargs="*", help="Files to send. If omitted, the GUI opens.")
     parser.add_argument("--send", dest="send_files", nargs="*", help="Send one or more files without opening the GUI.")
     parser.add_argument("--target", default=None, choices=["auto", "pictures", "downloads", "documents", "movies", "music", "custom"])
+    parser.add_argument("--folder", default=None, help="Friendly Android folder, for example Pictures or Pictures/My OCR Tests.")
     parser.add_argument("--custom-path", default=None, help="Custom Android destination path below /sdcard/.")
     parser.add_argument("--connect", default=None, help="WSA ADB endpoint, for example 127.0.0.1:58526.")
     parser.add_argument("--adb", default=None, help="Path to adb.exe.")
@@ -41,6 +42,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--install-context-menu", action="store_true", help="Install optional HKCU classic context-menu item.")
     parser.add_argument("--uninstall-context-menu", action="store_true", help="Remove optional HKCU classic context-menu item.")
     parser.add_argument("--list-devices", action="store_true", help="Print adb devices.")
+    parser.add_argument("--list-folders", action="store_true", help="Print Android folders from Pixel 5.")
+    parser.add_argument("--create-folder", nargs=2, metavar=("PARENT", "NAME"), help="Create NAME under PARENT, for example: Pictures \"My OCR Tests\".")
     parser.add_argument("--diagnose", action="store_true", help="Print diagnostics and troubleshooting hints.")
     parser.add_argument("--verbose", action="store_true", help="Print extra transfer details.")
     parser.add_argument("--version", action="store_true", help="Print app version.")
@@ -52,6 +55,7 @@ def options_from_args(args: argparse.Namespace, config: AppConfig) -> TransferOp
     return TransferOptions(
         target=args.target or config.defaultRouteMode,
         custom_path=args.custom_path or config.lastDestination,
+        android_folder=friendly_to_android_path(args.folder) if args.folder else "",
         adb_path=args.adb or config.adbPath,
         host=host,
         port=port,
@@ -64,7 +68,7 @@ def options_from_args(args: argparse.Namespace, config: AppConfig) -> TransferOp
 def collect_send_files(args: argparse.Namespace) -> list[str]:
     if args.send_files is not None:
         return args.send_files
-    return args.files or []
+    return []
 
 
 def print_devices(config: AppConfig, override_adb: str = "") -> int:
@@ -93,6 +97,7 @@ def diagnose(config: AppConfig, args: argparse.Namespace) -> int:
     print(f"Python: {platform.python_version()} ({sys.executable})")
     print(f"Config path: {AppConfig.config_path()}")
     print(f"WSA endpoint: {options.host}:{options.port}")
+    print(f"Last selected folder: {config.lastSelectedFriendlyFolder} ({config.lastSelectedAndroidFolder})")
     print(f"SendTo installed: {'yes' if sendto_batch_path().exists() else 'no'}")
     print(f"ADB detected: {adb_path if adb_path else 'no'}")
     if adb_path is None:
@@ -117,6 +122,33 @@ def diagnose(config: AppConfig, args: argparse.Namespace) -> int:
     return 0
 
 
+def print_folders(config: AppConfig, args: argparse.Namespace) -> int:
+    service = TransferService(config=config)
+    folders, messages = service.list_folders(options_from_args(args, config))
+    for message in messages:
+        print(message)
+    for folder in folders:
+        print(folder.friendly_path)
+    return 0
+
+
+def create_folder(config: AppConfig, args: argparse.Namespace) -> int:
+    parent, name = args.create_folder
+    try:
+        parent_android = friendly_to_android_path(parent)
+    except Exception as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+    service = TransferService(config=config)
+    folder, messages = service.create_folder(parent_android, name, options_from_args(args, config))
+    for message in messages:
+        print(message)
+    if folder is None:
+        return 1
+    print(f"Created: {folder.friendly_path}")
+    return 0
+
+
 def run_send(files: list[str], config: AppConfig, args: argparse.Namespace) -> int:
     if not files:
         print("No files were provided for --send.", file=sys.stderr)
@@ -134,10 +166,10 @@ def run_send(files: list[str], config: AppConfig, args: argparse.Namespace) -> i
     return 0 if summary.ok else 1
 
 
-def launch_gui(config: AppConfig) -> int:
+def launch_gui(config: AppConfig, initial_files: list[str] | None = None, from_sendto: bool = False) -> int:
     from .gui import run_gui
 
-    run_gui(config)
+    run_gui(config, initial_files=initial_files or [], from_sendto=from_sendto)
     return 0
 
 
@@ -167,10 +199,20 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.list_devices:
         return print_devices(config, args.adb or "")
+    if args.list_folders:
+        return print_folders(config, args)
+    if args.create_folder:
+        return create_folder(config, args)
     if args.diagnose:
         return diagnose(config, args)
 
-    files = collect_send_files(args)
-    if files:
-        return run_send(files, config, args)
+    try:
+        files = collect_send_files(args)
+        if files:
+            return run_send(files, config, args)
+    except AndroidPathError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+    if args.files:
+        return launch_gui(config, initial_files=args.files, from_sendto=True)
     return launch_gui(config)

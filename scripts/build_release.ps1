@@ -41,6 +41,7 @@ Invoke-Checked $venvPython @(
     "--clean",
     "--onefile",
     "--name", "WSAQuickDrop",
+    "--icon", (Join-Path $root "assets\icon\wsa-quickdrop.ico"),
     "--distpath", (Join-Path $root "dist"),
     "--workpath", (Join-Path $root "build"),
     "--specpath", $root,

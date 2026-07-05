@@ -2,7 +2,7 @@
 
 ## Chosen stack
 
-Python 3.11 with Tkinter GUI and optional PyInstaller packaging.
+Python 3.11 with Tkinter GUI and PyInstaller packaging.
 
 ## Why
 
@@ -27,4 +27,8 @@ The packaging scripts produce:
 
 - Source/dev run: `python quickdrop_entry.py`
 - Portable executable: `dist/WSAQuickDrop.exe`
-- Release zip: `release/WSAQuickDrop-v0.1.0-win-x64.zip`
+- Release zip: `release/WSAQuickDrop-v0.2.0-win-x64.zip`
+
+## v0.2.0 UI direction
+
+The GUI now uses a visual Pixel 5 folder browser. Internal Android paths are hidden unless the user enables advanced mode in Settings. The CLI keeps the older extension routing options for compatibility.

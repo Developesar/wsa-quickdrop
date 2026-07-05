@@ -23,10 +23,12 @@ adb version
 
 ## انتخاب دستی ADB
 
-اگر نمی‌خواهید PATH را تغییر دهید، برنامه WSA QuickDrop را باز کنید و Browse adb.exe را بزنید.
+اگر نمی‌خواهید PATH را تغییر دهید، برنامه WSA QuickDrop را باز کنید و در Settings مسیر `adb.exe` را انتخاب کنید.
 
 مسیر انتخاب‌شده در این فایل ذخیره می‌شود:
 
 ```text
 %APPDATA%\WSAQuickDrop\config.json
 ```
+
+بعد از تنظیم ADB، در WSA QuickDrop دکمه Connect را بزنید. مرورگر پوشه باید پوشه‌های Pixel 5 را نشان دهد.

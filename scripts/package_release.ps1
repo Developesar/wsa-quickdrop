@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $root = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")
 & (Join-Path $PSScriptRoot "build_release.ps1")
 
-$version = "0.1.0"
+$version = "0.2.0"
 $releaseRoot = Join-Path $root "release"
 $packageDir = Join-Path $releaseRoot "WSAQuickDrop-v$version-win-x64"
 $zipPath = Join-Path $releaseRoot "WSAQuickDrop-v$version-win-x64.zip"

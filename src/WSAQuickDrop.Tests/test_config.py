@@ -22,6 +22,18 @@ def test_config_serialization_round_trip(tmp_path) -> None:
     assert loaded == config
 
 
+def test_config_migrates_legacy_destination(tmp_path) -> None:
+    path = AppConfig.config_path(tmp_path)
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        '{"lastSelectedAndroidFolder":"","lastSelectedFriendlyFolder":"","lastDestination":"/sdcard/Download/WSAQuickDrop"}',
+        encoding="utf-8",
+    )
+    loaded = AppConfig.load(tmp_path)
+    assert loaded.lastSelectedAndroidFolder == "/sdcard/Download/WSAQuickDrop"
+    assert loaded.lastSelectedFriendlyFolder == "Download/WSAQuickDrop"
+
+
 def test_parse_endpoint_defaults_port() -> None:
     assert parse_endpoint("127.0.0.1") == ("127.0.0.1", 58526)
     assert parse_endpoint("127.0.0.1:1234") == ("127.0.0.1", 1234)

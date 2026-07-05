@@ -1,44 +1,55 @@
 # راهنمای کاربر
 
-## ارسال با راست‌کلیک
+## روش ساده
 
-1. اسکریپت `scripts/install_sendto.ps1` را اجرا کنید.
-2. در Windows Explorer یک یا چند فایل را انتخاب کنید.
-3. راست‌کلیک کنید.
-4. مسیر `Send to > WSA QuickDrop` را انتخاب کنید.
-5. فایل‌ها با ADB به WSA فرستاده می‌شوند.
+1. WSA QuickDrop را باز کنید.
+2. Connect را بزنید.
+3. از Pixel 5 یک پوشه مثل Pictures، Download، Documents یا DCIM را انتخاب کنید.
+4. فایل‌ها را داخل برنامه رها کنید یا Browse files را بزنید.
+5. Send را بزنید.
+6. در برنامه اندرویدی، File Picker را باز کنید و به Pixel 5 > پوشه انتخاب‌شده بروید.
 
-## ارسال با Drag & Drop
+در رابط گرافیکی، همه فایل‌های صف‌شده به همان پوشه انتخاب‌شده می‌روند. مقصد بر اساس پسوند فایل عوض نمی‌شود.
 
-1. `WSAQuickDrop.exe` را باز کنید.
-2. فایل‌ها را داخل پنجره رها کنید یا از Browse Files استفاده کنید.
-3. حالت مقصد را انتخاب کنید.
-4. روی Send to WSA بزنید.
+## روش SendTo
 
-## حالت‌های مقصد
+1. میانبر SendTo را نصب کنید.
+2. فایل‌ها را در Windows Explorer انتخاب کنید.
+3. Right click > Send to > WSA QuickDrop را بزنید.
+4. برنامه باز می‌شود و فایل‌ها را در صف نشان می‌دهد.
+5. پوشه مقصد را بررسی کنید و Send را بزنید.
 
-- Auto: بر اساس نوع فایل مسیر را انتخاب می‌کند.
-- Pictures: همه فایل‌ها را به `/sdcard/Pictures/WSAQuickDrop` می‌فرستد.
-- Downloads: همه فایل‌ها را به `/sdcard/Download/WSAQuickDrop` می‌فرستد.
-- Documents: همه فایل‌ها را به `/sdcard/Documents/WSAQuickDrop` می‌فرستد.
-- Movies: همه فایل‌ها را به `/sdcard/Movies/WSAQuickDrop` می‌فرستد.
-- Music: همه فایل‌ها را به `/sdcard/Music/WSAQuickDrop` می‌فرستد.
-- Custom: مسیر دلخواه زیر `/sdcard/`.
+ارسال فوری از SendTo در Settings قابل فعال‌سازی است، ولی پیش‌فرض خاموش است.
 
-## استفاده از CLI
+## مرورگر پوشه
+
+پنل سمت چپ Pixel 5 را نشان می‌دهد. این نام ساده حافظه اندروید داخل WSA است. در حالت عادی مسیرهای فنی مثل `/sdcard` نمایش داده نمی‌شوند.
+
+کاربران حرفه‌ای می‌توانند Show advanced Android path را در Settings فعال کنند.
+
+## ساخت پوشه
+
+1. یک پوشه والد مثل Pictures را انتخاب کنید.
+2. Create folder را بزنید.
+3. نام امن وارد کنید، مثلا My OCR Tests.
+4. برنامه پوشه Pixel 5 > Pictures > My OCR Tests را می‌سازد و انتخاب می‌کند.
+
+## CLI
 
 ```powershell
-WSAQuickDrop.exe --send "C:\Users\User\Desktop\sample.jpg"
-WSAQuickDrop.exe --send "sample.pdf" --target downloads
-WSAQuickDrop.exe --send "sample.jpg" --target custom --custom-path "/sdcard/Pictures/MyInbox"
-WSAQuickDrop.exe --diagnose
+WSAQuickDrop.exe --send "sample.jpg" --folder Pictures
+WSAQuickDrop.exe --send "sample.pdf" --folder Download
+WSAQuickDrop.exe --send "sample.jpg" --folder "Pictures/My OCR Tests"
+WSAQuickDrop.exe --list-folders
+WSAQuickDrop.exe --create-folder Pictures "My OCR Tests"
 ```
 
 ## مثال Persian OCR Offline
 
-1. عکس یا PDF را با WSA QuickDrop ارسال کنید.
-2. Persian OCR Offline را داخل WSA باز کنید.
-3. Select Image/PDF را بزنید.
-4. در File Picker اندروید، Pixel 5 را انتخاب کنید.
-5. وارد Pictures یا Download شوید.
-6. پوشه WSAQuickDrop را باز کنید.
+1. Pictures را انتخاب کنید.
+2. عکس را داخل برنامه رها کنید.
+3. Send را بزنید.
+4. Persian OCR Offline را باز کنید.
+5. Select Image را بزنید.
+6. مسیر Pixel 5 > Pictures را باز کنید.
+7. عکس را انتخاب کنید.

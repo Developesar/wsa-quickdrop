@@ -9,6 +9,7 @@ WSA QuickDrop is local-only.
 - Files are not uploaded to cloud services.
 - Logs stay on the local machine under `%APPDATA%\WSAQuickDrop\logs`.
 - The user controls which files are selected.
+- The user controls the selected Pixel 5 folder in the GUI.
 - ADB access requires WSA Developer Mode.
 - Security-sensitive users should disable WSA Developer Mode when they are done.
 
@@ -16,9 +17,9 @@ WSA QuickDrop is local-only.
 
 The app uses argument-list process execution and does not use shell concatenation for Windows file paths. Android shell commands are built from validated `/sdcard/` paths and POSIX-quoted before execution.
 
-## Custom Android paths
+## Android paths
 
-Custom destinations must:
+Normal GUI users do not need to type Android paths. Advanced and CLI destinations must:
 
 - start with `/sdcard/`
 - not contain `..`

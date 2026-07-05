@@ -1,46 +1,43 @@
 # Troubleshooting
 
-## 1. adb.exe not found
+## Run diagnostics
 
-Install Android SDK Platform-Tools, add it to PATH, or choose `adb.exe` in WSA QuickDrop.
+```powershell
+WSAQuickDrop.exe --diagnose
+```
 
-## 2. WSA connection refused
+## adb.exe not found
 
-Start WSA, enable Developer Mode, open an Android app, and retry `adb connect 127.0.0.1:58526`.
+Install Android SDK Platform-Tools, add it to PATH, or choose `adb.exe` in Settings.
 
-## 3. device offline
+## WSA not connected
 
-Restart WSA, disconnect/reconnect ADB, then run diagnostics again.
+Open Windows Subsystem for Android settings, enable Developer Mode, start an Android app, then click Connect.
 
-## 4. unauthorized
+## Multiple devices
 
-WSA may be waiting for an ADB authorization prompt. Restart WSA and reconnect.
+WSA QuickDrop prefers `127.0.0.1:58526` when available. Disconnect other ADB devices or pass `--connect`.
 
-## 5. files pushed but not visible in Images
+## Folder browser empty
 
-Check Android file picker paths:
+WSA may not be running, Developer Mode may be disabled, or ADB may not be connected. Click Connect, then Refresh folders.
 
-- Pixel 5 > Pictures > WSAQuickDrop
-- Pixel 5 > Download > WSAQuickDrop
+## mkdir: Needs 1 argument
 
-The Images tab may need a refresh or media scan delay.
+This was an older empty-destination bug. Version 0.2.0 validates the destination before building `adb shell mkdir -p`. If you still see this, run `--diagnose` and make sure a Pixel 5 folder is selected.
 
-## 6. media scanner did not update
+## Permission denied
 
-The file was still pushed if verification succeeded. Browse by folder instead of using recent media tabs.
+Choose a normal Pixel 5 folder such as Pictures or Download. Custom Android paths outside `/sdcard/` are blocked.
 
-## 7. file picker shows no matches
+## Files pushed but not visible in Images
 
-Change the file picker filter from images-only to all files, or browse to the folder manually.
+Browse directly to Pixel 5 > selected folder. Media tabs may refresh later even when the file is already present.
 
-## 8. multiple devices connected
+## File picker shows no matches
 
-WSA QuickDrop prefers `127.0.0.1:58526` when it is available. Disconnect other devices or use `--connect`.
+Change the file picker filter to all files, or browse to the folder manually.
 
-## 9. WSA not running
+## Persian filenames
 
-Open any Android app installed in WSA, then retry.
-
-## 10. INSTALL/ADB command not recognized
-
-Open a new PowerShell after editing PATH, or select `adb.exe` manually in the app.
+Persian filenames and folder names are preserved where ADB and the Android file picker support Unicode. If a target app does not show them, browse by folder rather than recent files.

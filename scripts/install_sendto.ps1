@@ -15,7 +15,7 @@ function Resolve-QuickDropExecutable {
         (Join-Path $PSScriptRoot "WSAQuickDrop.exe"),
         (Join-Path $PSScriptRoot "..\WSAQuickDrop.exe"),
         (Join-Path $PSScriptRoot "..\dist\WSAQuickDrop.exe"),
-        (Join-Path $PSScriptRoot "..\release\WSAQuickDrop-v0.1.0-win-x64\WSAQuickDrop.exe")
+        (Join-Path $PSScriptRoot "..\release\WSAQuickDrop-v0.2.0-win-x64\WSAQuickDrop.exe")
     )
 
     foreach ($path in $candidates) {
@@ -34,7 +34,7 @@ $batchPath = Join-Path $sendTo "WSA QuickDrop.bat"
 $content = @"
 @echo off
 setlocal
-"$exe" --send %*
+"$exe" %*
 exit /b %ERRORLEVEL%
 "@
 Set-Content -LiteralPath $batchPath -Value $content -Encoding ASCII

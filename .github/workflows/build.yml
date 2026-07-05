@@ -29,7 +29,7 @@ jobs:
 
       - name: Build executable
         run: |
-          python -m PyInstaller --clean --onefile --name WSAQuickDrop --paths src quickdrop_entry.py
+          python -m PyInstaller --clean --onefile --name WSAQuickDrop --icon assets/icon/wsa-quickdrop.ico --paths src quickdrop_entry.py
 
       - name: Package artifact
         shell: pwsh
@@ -38,5 +38,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: WSAQuickDrop-v0.1.0-win-x64
-          path: release/WSAQuickDrop-v0.1.0-win-x64.zip
+          name: WSAQuickDrop-v0.2.0-win-x64
+          path: release/WSAQuickDrop-v0.2.0-win-x64.zip

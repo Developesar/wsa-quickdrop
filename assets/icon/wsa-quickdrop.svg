@@ -1,7 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="WSA QuickDrop icon">
-  <rect width="256" height="256" rx="44" fill="#122033"/>
-  <path d="M64 72h128a16 16 0 0 1 16 16v80a16 16 0 0 1-16 16H64a16 16 0 0 1-16-16V88a16 16 0 0 1 16-16z" fill="#1f9d8a"/>
-  <path d="M78 98h100v16H78zM78 132h64v16H78z" fill="#e8fff9"/>
-  <path d="M157 130h22v-28h18v28h22l-31 34z" fill="#ffcc66"/>
-  <path d="M56 190h144" stroke="#e8fff9" stroke-width="10" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bg" x1="36" y1="28" x2="220" y2="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="232" height="232" rx="48" fill="url(#bg)"/>
+  <path d="M58 82a16 16 0 0 1 16-16h74l22 22h24a16 16 0 0 1 16 16v70a18 18 0 0 1-18 18H76a18 18 0 0 1-18-18z" fill="#f8fbff"/>
+  <path d="M58 104h152v70a18 18 0 0 1-18 18H76a18 18 0 0 1-18-18z" fill="#dbeafe"/>
+  <rect x="144" y="52" width="44" height="78" rx="13" fill="#0f172a"/>
+  <rect x="151" y="62" width="30" height="55" rx="6" fill="#34d399"/>
+  <path d="M124 103h23V80h22v23h23l-34 38z" fill="#f59e0b"/>
+  <path d="M82 151h88" stroke="#2563eb" stroke-width="13" stroke-linecap="round"/>
 </svg>

@@ -1,49 +1,61 @@
 # User Guide
 
-## Right-click flow
+## Simple Flow
 
-1. Run `scripts/install_sendto.ps1`.
-2. Select one or more files in Windows Explorer.
-3. Right click the selection.
-4. Choose `Send to > WSA QuickDrop`.
-5. The app sends files to WSA through ADB.
+1. Open WSA QuickDrop.
+2. Click Connect.
+3. Choose an Android folder from Pixel 5, such as Pictures, Download, Documents, or DCIM.
+4. Drop files into the app or use Browse files.
+5. Click Send.
+6. Open your Android app and browse to Pixel 5 > the selected folder.
 
-## Drag-drop flow
+The main GUI sends every queued file to the selected folder. It does not switch destinations by extension.
 
-1. Open `WSAQuickDrop.exe`.
-2. Drop files into the window or use Browse Files.
-3. Choose a destination mode.
-4. Click Send to WSA.
+## SendTo Flow
 
-## Destination modes
+1. Install the SendTo shortcut.
+2. Select files in Windows Explorer.
+3. Right click > Send to > WSA QuickDrop.
+4. WSA QuickDrop opens with files queued.
+5. Confirm the folder, then click Send.
 
-- Auto: routes by file type.
-- Pictures: sends everything to `/sdcard/Pictures/WSAQuickDrop`.
-- Downloads: sends everything to `/sdcard/Download/WSAQuickDrop`.
-- Documents: sends everything to `/sdcard/Documents/WSAQuickDrop`.
-- Movies: sends everything to `/sdcard/Movies/WSAQuickDrop`.
-- Music: sends everything to `/sdcard/Music/WSAQuickDrop`.
-- Custom: sends to a user path below `/sdcard/`.
+Immediate send from SendTo is available in Settings but is off by default.
 
-## CLI flow
+## Folder Browser
+
+The left panel shows Pixel 5. This is the friendly name for WSA Android storage. Normal mode hides internal paths such as `/sdcard`.
+
+Advanced users can enable Show advanced Android path in Settings.
+
+## Create Folder
+
+1. Select a parent folder, such as Pictures.
+2. Click Create folder.
+3. Enter a safe folder name, for example My OCR Tests.
+4. The app creates Pixel 5 > Pictures > My OCR Tests and selects it.
+
+## CLI
 
 ```powershell
-WSAQuickDrop.exe --send "C:\Users\User\Desktop\sample.jpg"
-WSAQuickDrop.exe --send "sample.pdf" --target downloads
-WSAQuickDrop.exe --send "sample.jpg" --target custom --custom-path "/sdcard/Pictures/MyInbox"
-WSAQuickDrop.exe --diagnose
+WSAQuickDrop.exe --send "sample.jpg" --folder Pictures
+WSAQuickDrop.exe --send "sample.pdf" --folder Download
+WSAQuickDrop.exe --send "sample.jpg" --folder "Pictures/My OCR Tests"
+WSAQuickDrop.exe --list-folders
+WSAQuickDrop.exe --create-folder Pictures "My OCR Tests"
 ```
 
-## Persian OCR Offline example
+Smart extension routing is still available:
 
-1. Send images or PDFs with WSA QuickDrop.
-2. Open Persian OCR Offline inside WSA.
-3. Choose Select Image/PDF.
-4. In Android file picker, choose Pixel 5.
-5. Open Pictures or Download.
-6. Open WSAQuickDrop.
+```powershell
+WSAQuickDrop.exe --send "sample.jpg" --target auto
+```
 
-The helper can check these optional packages:
+## Persian OCR Offline Example
 
-- `ir.persiandots.ocr.dev`
-- `ir.persiandots.ocr`
+1. Choose Pictures.
+2. Drop an image.
+3. Click Send.
+4. Open Persian OCR Offline.
+5. Choose Select Image.
+6. Browse to Pixel 5 > Pictures.
+7. Select the image.

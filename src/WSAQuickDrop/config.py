@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from . import DEFAULT_WSA_HOST, DEFAULT_WSA_PORT
+from .android_folders import selected_folder_from_config
 
 
 @dataclass
@@ -15,8 +16,14 @@ class AppConfig:
     wsaPort: int = DEFAULT_WSA_PORT
     defaultRouteMode: str = "auto"
     lastDestination: str = ""
+    lastSelectedAndroidFolder: str = "/sdcard/Pictures"
+    lastSelectedFriendlyFolder: str = "Pictures"
     autoMediaScan: bool = True
     closeAfterSend: bool = False
+    openAfterSend: bool = False
+    sendImmediatelyFromSendTo: bool = False
+    showAdvancedPaths: bool = False
+    windowGeometry: str = ""
     theme: str = "system"
     language: str = "en"
     optionalTargetAppPackage: str = ""
@@ -50,6 +57,13 @@ class AppConfig:
             merged["wsaPort"] = int(merged["wsaPort"])
         except (TypeError, ValueError):
             merged["wsaPort"] = DEFAULT_WSA_PORT
+        selected = selected_folder_from_config(
+            str(merged.get("lastSelectedAndroidFolder") or ""),
+            str(merged.get("lastSelectedFriendlyFolder") or ""),
+            str(merged.get("lastDestination") or ""),
+        )
+        merged["lastSelectedAndroidFolder"] = selected.android_path
+        merged["lastSelectedFriendlyFolder"] = selected.friendly_path
         return cls(**merged)
 
     def save(self, base: Path | None = None) -> Path:

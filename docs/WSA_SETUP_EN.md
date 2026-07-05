@@ -20,6 +20,8 @@ You should see a device similar to:
 127.0.0.1:58526    device
 ```
 
+When this is ready, WSA QuickDrop can list folders under Pixel 5 and send files to the selected folder.
+
 ## If connection is refused
 
 - Make sure WSA is running.
@@ -27,3 +29,4 @@ You should see a device similar to:
 - Confirm Developer Mode is enabled.
 - Confirm the port in WSA settings.
 - Restart WSA and retry.
+- In WSA QuickDrop, click Connect, then Refresh folders.

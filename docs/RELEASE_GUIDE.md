@@ -1,36 +1,36 @@
 # Release Guide
 
-## Build
-
-```powershell
-.\scripts\build_release.ps1
-```
-
-This restores dev dependencies into `.venv`, runs tests, compiles Python files, and creates:
-
-```text
-dist/WSAQuickDrop.exe
-```
-
-## Package
+## Build and package
 
 ```powershell
 .\scripts\package_release.ps1
 ```
 
-This creates:
+This runs tests, builds `dist/WSAQuickDrop.exe`, and creates:
 
 ```text
-release/WSAQuickDrop-v0.1.0-win-x64/
-release/WSAQuickDrop-v0.1.0-win-x64.zip
+release/WSAQuickDrop-v0.2.0-win-x64/
+release/WSAQuickDrop-v0.2.0-win-x64.zip
 ```
+
+## Release contents
+
+- `WSAQuickDrop.exe`
+- `assets/icon/`
+- `README.md`
+- `README_FA.md`
+- `LICENSE`
+- `scripts/install_sendto.ps1`
+- `scripts/uninstall_sendto.ps1`
+- `docs/`
 
 ## Manual GitHub release
 
-1. Push the repo to GitHub.
-2. Create a tag, for example `v0.1.0`.
-3. Draft a new GitHub Release.
-4. Upload `release/WSAQuickDrop-v0.1.0-win-x64.zip`.
-5. Include notes from `CHANGELOG.md`.
+1. Push the repository to GitHub.
+2. Create tag `v0.2.0`.
+3. Draft release title: `WSA QuickDrop v0.2.0`.
+4. Use the release theme: `Simple Android folder browser for WSA file transfer.`
+5. Upload `release/WSAQuickDrop-v0.2.0-win-x64.zip`.
+6. Include the 0.2.0 notes from `CHANGELOG.md`.
 
-Do not upload secrets or local config/log files.
+Do not upload logs, local config files, or test files.
