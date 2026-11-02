@@ -8,6 +8,8 @@ WSA QuickDrop is a small Windows utility that lets you send files from Windows i
 
 ![WSA QuickDrop main window](assets/screenshots/main-window.png)
 
+The images in this repository are illustrative interface mockups using sample data. Actual application appearance can differ.
+
 ## Features
 
 - Visual `Pixel 5` folder browser for WSA storage.
